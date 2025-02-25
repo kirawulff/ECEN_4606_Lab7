@@ -11,7 +11,7 @@ figure
 X = fft2(fftshift(SquareWave));
 
 % c
-Y = abs(log(ifftshift(X)).^2);
+Y = abs(log(ifftshift(X).^2));
 aticklen = 200e-3*633e-9/(4e-6);
 % atickstart = (length(X)-1)*aticklen/2;
 % atick = linspace(-atickstart,atickstart, 5);
@@ -57,7 +57,7 @@ figure
 X = fft2(fftshift(SquareWave2));
 
 % c
-Y = abs(log(ifftshift(X)).^2);
+Y = abs(log(ifftshift(X).^2));
 aticklen = 200e-3*633e-9/(4e-6);
 % atickstart = (length(X)-1)*aticklen/2;
 % atick = linspace(-atickstart,atickstart, 5);
@@ -87,3 +87,42 @@ imagesc(mask);
 final = mask.*Z;
 imagesc(final);
         
+
+%% Part 3
+Hologram = imread('CT_Hologram.jpg');
+Reference = imread('CT_ReferenceBeam.jpg');
+Object = imread('CT_ObjectBeam.jpg');
+
+% Without subtraction
+Z = rgb2gray(Hologram);
+figure
+X = fft2(mat2gray(fftshift(Z)));
+Y_Hologram = abs(log10(ifftshift(X).^2));
+imagesc(Y_Hologram);
+
+% With subtraction
+Z = rgb2gray(Hologram)-(rgb2gray(Reference)+rgb2gray(Object));
+figure
+X = fft2(mat2gray(fftshift(Z)));
+Y_Hologram = abs(log10(ifftshift(X).^2));
+imagesc(Y_Hologram);
+
+%% Problem 4
+
+Hologram = imread('USAF_Hologram.jpg');
+Reference = imread('USAF_Reference.jpg');
+Object = imread('USAF_ObjectBeam.jpg');
+
+% With subtraction
+Z = rgb2gray(Hologram)-(rgb2gray(Reference)+rgb2gray(Object));
+figure
+X = fft2(mat2gray(fftshift(Z)));
+Y_Hologram = abs(log10(ifftshift(X).^2));
+imagesc(Y_Hologram);
+
+x = linspace(-1,1,length(Hologram));
+y = linspace(-1,1,length(Hologram));
+[X_grid, Y_grid] = meshgrid(x,y);
+
+
+
