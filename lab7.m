@@ -124,5 +124,28 @@ x = linspace(-1,1,length(Hologram));
 y = linspace(-1,1,length(Hologram));
 [X_grid, Y_grid] = meshgrid(x,y);
 
+% To find best looking phase
+% for c = -2:.2:2
+% grid_phase = exp(c * (X_grid.^2 + Y_grid.^2));
+% 
+% G_Hologram = double(rgb2gray(Hologram)) .* grid_phase;
+% Z = uint8(G_Hologram) - (rgb2gray(Reference)+rgb2gray(Object));
+% figure
+% 
+% X = fft2(mat2gray(fftshift(Z)));
+% Y_Hologram = abs(log10(ifftshift(X).^2));
+% imagesc(Y_Hologram);
+% title(['c = ', num2str(c)]);
+% end
 
+c = 1.4;
+grid_phase = exp(c * (X_grid.^2 + Y_grid.^2));
 
+G_Hologram = double(rgb2gray(Hologram)) .* grid_phase;
+Z = uint8(G_Hologram) - (rgb2gray(Reference)+rgb2gray(Object));
+figure
+
+X = fft2(mat2gray(fftshift(Z)));
+Y_Hologram = abs(log10(ifftshift(X).^2));
+imagesc(Y_Hologram);
+title(['c = ', num2str(c)]);
